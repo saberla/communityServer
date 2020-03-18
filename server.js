@@ -30,9 +30,9 @@ app.use(bodyParser.json())
 app.use(passport.initialize())
 require('./config/passport')(passport)
 
-// 引入users.js
+// 引入users.js并使用接口
 const users = require('./routes/api/users')
-
-// 使用引用过来的routes
 app.use('/api/user', users)
-
+// 引入logRecord.js并使用
+const logRecords = require('./routes/api/logRecord')
+app.use('/api/records', logRecords)

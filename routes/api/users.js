@@ -49,6 +49,14 @@ router.post('/login', (req, res) => {
             if(!user) {
                 return res.json({data:{code:404,msg:'用户不存在'}})
             }
+            // 当前时间
+            let date = new Date()
+            let year = date.getFullYear()
+            let month = date.getMonth() + 1
+            let day = date.getDate()
+            let h = date.getHours()
+            let m = date.getMinutes()
+            let nowDate = year + '.' + month + '.' + day + ' ' + h + ':' + m
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
                     if (isMatch) {
@@ -62,7 +70,8 @@ router.post('/login', (req, res) => {
                             name: user.name,
                             tel: user.tel,
                             nation: user.nation,
-                            education: user.education
+                            education: user.education,
+                            nowDate: nowDate
                         }
                         jwt.sign(rule, 'secret', {expiresIn: 60*60*24}, (err, token) => {
                             if (err) throw err
@@ -117,8 +126,7 @@ router.post('/getLoginUser', passport.authenticate('jwt', {session:false}), (req
 // passport 验证token
 // api/user/updateUser
 router.post('/updateUser', passport.authenticate('jwt', {session:false}), (req, res) => {
-    Users.update({userName: req.body.userName1}, {
-        userName: req.body.userName,
+    Users.updateOne({userName: req.body.userName1}, {
         name: req.body.name,
         tel: req.body.tel,
         role: req.body.role,
@@ -162,7 +170,7 @@ router.post('/updatePass', passport.authenticate('jwt', {session:false}), (req, 
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(req.body.password, salt, function(err, hash) {
             if (err) throw err
-            Users.update({userName: req.body.userName}, {
+            Users.updateOne({userName: req.body.userName}, {
                 password: hash
             })
             .then(user => {
@@ -186,7 +194,7 @@ router.post('/resetPassword', passport.authenticate('jwt', {session:false}), (re
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(req.body.password, salt, function(err, hash) {
             if (err) throw err
-            Users.update({userName: req.body.userName}, {
+            Users.updateOne({userName: req.body.userName}, {
                 password: hash
             })
             .then(user => {
