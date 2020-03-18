@@ -21,7 +21,9 @@ router.post('/register', (req, res) => {
                     password: req.body.password,
                     role: req.body.role,
                     tel: req.body.tel,
-                    name: req.body.name
+                    name: req.body.name,
+                    nation: req.body.nation,
+                    education: req.body.education
                 })
                 bcrypt.genSalt(10, function(err, salt) {
                     bcrypt.hash(NewUser.password, salt, function(err, hash) {
@@ -58,7 +60,9 @@ router.post('/login', (req, res) => {
                             date: user.date,
                             role: user.role,
                             name: user.name,
-                            tel: user.tel
+                            tel: user.tel,
+                            nation: user.nation,
+                            education: user.education
                         }
                         jwt.sign(rule, 'secret', {expiresIn: 60*60*24}, (err, token) => {
                             if (err) throw err
@@ -117,7 +121,9 @@ router.post('/updateUser', passport.authenticate('jwt', {session:false}), (req, 
         userName: req.body.userName,
         name: req.body.name,
         tel: req.body.tel,
-        role: req.body.role
+        role: req.body.role,
+        nation: req.body.nation,
+        education: req.body.education
     })
     .then(user => {
         res.json({data:{
@@ -173,7 +179,7 @@ router.post('/updatePass', passport.authenticate('jwt', {session:false}), (req, 
 })
 
 
-// 密码资料重置 POST请求
+// 密码重置 POST请求
 // passport 验证token
 // api/user/resetPassword
 router.post('/resetPassword', passport.authenticate('jwt', {session:false}), (req, res) => {

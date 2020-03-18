@@ -25,6 +25,14 @@ const UserSchema = new Schema({
     tel: {
         type: Number,
         required: true
+    },
+    education: {
+        type: String,
+        required: true
+    },
+    nation: {
+        type: String,
+        required: true
     }
 })
 
