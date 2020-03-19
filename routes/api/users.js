@@ -9,6 +9,7 @@ const Users = require('../../Schemas/userSchema') // user数据库
 
 // 注册 请求会带数据 POST请求
 // api/user/register
+// public
 router.post('/register', (req, res) => {
     // 判断账号是否已经注册
     Users.findOne({userName:req.body.userName})
@@ -40,6 +41,7 @@ router.post('/register', (req, res) => {
 
 // 登录 请求会带数据 POST请求
 // 返回token, jwt passport
+//public
 // api/user/login
 router.post('/login', (req, res) => {
     let userName = req.body.userName,
@@ -86,6 +88,7 @@ router.post('/login', (req, res) => {
 
 // 返回用户数据 POST请求
 // passport 验证tocken
+// private
 // api/user/getUsers
 router.post('/getUsers',passport.authenticate('jwt', {session:false}) , (req, res) => {
     let query = req.body.query
@@ -108,6 +111,7 @@ router.post('/getUsers',passport.authenticate('jwt', {session:false}) , (req, re
 
 // 返回目前登录用户数据 POST请求
 // passport 验证token
+// private
 // api/user/getLoginUser
 router.post('/getLoginUser', passport.authenticate('jwt', {session:false}), (req, res) => {
     Users.find({userName: req.body.userName})
@@ -124,6 +128,7 @@ router.post('/getLoginUser', passport.authenticate('jwt', {session:false}), (req
 
 // 修改用户数据 POST请求
 // passport 验证token
+// private
 // api/user/updateUser
 router.post('/updateUser', passport.authenticate('jwt', {session:false}), (req, res) => {
     Users.updateOne({userName: req.body.userName1}, {
@@ -146,6 +151,7 @@ router.post('/updateUser', passport.authenticate('jwt', {session:false}), (req, 
 
 // 个人姓名修改 POST请求
 // passport 验证token
+// private
 // api/user/updateName
 router.post('/updateName', passport.authenticate('jwt', {session:false}), (req, res) => {
     Users.findOneAndUpdate({userName: req.body.userName}, {
@@ -165,6 +171,7 @@ router.post('/updateName', passport.authenticate('jwt', {session:false}), (req, 
 
 // 个人密码修改 POST请求
 // passport 验证token
+// private
 // api/user/updatePass
 router.post('/updatePass', passport.authenticate('jwt', {session:false}), (req, res) => {
     bcrypt.genSalt(10, function(err, salt) {
@@ -189,6 +196,7 @@ router.post('/updatePass', passport.authenticate('jwt', {session:false}), (req, 
 
 // 密码重置 POST请求
 // passport 验证token
+// private
 // api/user/resetPassword
 router.post('/resetPassword', passport.authenticate('jwt', {session:false}), (req, res) => {
     bcrypt.genSalt(10, function(err, salt) {
@@ -212,6 +220,7 @@ router.post('/resetPassword', passport.authenticate('jwt', {session:false}), (re
 
 // 删除用户数据 POST请求
 // passport 验证tocken
+// private
 // api/user/deleteUser
 router.post('/deleteUser', passport.authenticate('jwt', {session:false}), (req, res) => {
     Users.deleteOne({userName: req.body.userName})
