@@ -128,7 +128,7 @@ router.post('/deleteDetail', passport.authenticate('jwt', {session:false}), (req
 // api/dictionary/getDic
 router.post('/getDic', passport.authenticate('jwt', {session:false}), (req, res) => {
     // 判断该字典是否已存在
-    Dictionaries.find({})
+    Dictionaries.find({}, {_id: 0})
       .then((dic) => {
           return res.json({data:{code:200, dic}})
       })
