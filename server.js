@@ -30,6 +30,7 @@ app.use(bodyParser.json())
 app.use(passport.initialize())
 require('./config/passport')(passport)
 
+
 // 引入users.js并使用接口
 const users = require('./routes/api/users')
 app.use('/api/user', users)
@@ -39,3 +40,6 @@ app.use('/api/records', logRecords)
 // 引入dictionary.js并使用
 const dictionary = require('./routes/api/dictionary')
 app.use('/api/dictionary', dictionary)
+// 引入xinduStreet.js并使用
+const street = require('./routes/api/xinduStreet')
+app.use('/api/Streets', street)
