@@ -31,6 +31,7 @@ app.use(passport.initialize())
 require('./config/passport')(passport)
 
 
+// 创建api
 // 引入users.js并使用接口
 const users = require('./routes/api/users')
 app.use('/api/user', users)
@@ -43,3 +44,6 @@ app.use('/api/dictionary', dictionary)
 // 引入xinduStreet.js并使用
 const street = require('./routes/api/xinduStreet')
 app.use('/api/Streets', street)
+// 引入community.js并使用
+const community = require('./routes/api/community')
+app.use('/api/community', community)
