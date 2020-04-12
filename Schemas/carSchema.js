@@ -1,22 +1,22 @@
-// 小区治理
+// 车辆建档
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 // create schema
-const communitySchema = new Schema({
+const carSchema = new Schema({
+  carNum: {
+    type: String,
+    required: true
+  },
+  carHolder: {
+    type: String,
+    required: true
+  },
+  carColor: {
+    type: String,
+    required: true
+  },
   communityName: {
-    type: String,
-    required: true
-  },
-  communityAdd: {
-    type: String,
-    required: true
-  },
-  developCompany: {
-    type: String,
-    required: true
-  },
-  property: {
     type: String,
     required: true
   },
@@ -26,5 +26,5 @@ const communitySchema = new Schema({
   }
 })
 
-let communityModel = mongoose.model('communities', communitySchema)
-module.exports = communityModel
+let carsModel = mongoose.model('cars', carSchema)
+module.exports = carsModel

@@ -1,22 +1,26 @@
-// 小区治理
+// 人员建档
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 // create schema
-const communitySchema = new Schema({
+const personSchema = new Schema({
   communityName: {
     type: String,
     required: true
   },
-  communityAdd: {
+  personName: {
     type: String,
     required: true
   },
-  developCompany: {
+  personSex: {
     type: String,
     required: true
   },
-  property: {
+  personTel: {
+    type: String,
+    required: true
+  },
+  personAdd: {
     type: String,
     required: true
   },
@@ -26,5 +30,5 @@ const communitySchema = new Schema({
   }
 })
 
-let communityModel = mongoose.model('communities', communitySchema)
-module.exports = communityModel
+let personModel = mongoose.model('persons', personSchema)
+module.exports = personModel

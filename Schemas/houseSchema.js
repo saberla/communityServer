@@ -1,22 +1,22 @@
-// 小区治理
+// 房屋建档
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 // create schema
-const communitySchema = new Schema({
+const houseSchema = new Schema({
   communityName: {
     type: String,
     required: true
   },
-  communityAdd: {
+  houseNum: {
     type: String,
     required: true
   },
-  developCompany: {
+  houseSize: {
     type: String,
     required: true
   },
-  property: {
+  houseHolder: {
     type: String,
     required: true
   },
@@ -26,5 +26,5 @@ const communitySchema = new Schema({
   }
 })
 
-let communityModel = mongoose.model('communities', communitySchema)
-module.exports = communityModel
+let houseModel = mongoose.model('houses', houseSchema)
+module.exports = houseModel

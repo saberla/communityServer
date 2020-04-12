@@ -47,3 +47,12 @@ app.use('/api/Streets', street)
 // 引入community.js并使用
 const community = require('./routes/api/community')
 app.use('/api/community', community)
+// 引入house.js 并使用
+const house = require('./routes/api/house')
+app.use('/api/house', house)
+// 引入person.js并使用
+const person = require('./routes/api/person')
+app.use('/api/persons', person)
+// 引入car.js并使用
+const car = require('./routes/api/car')
+app.use('/api/cars', car)
