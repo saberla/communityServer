@@ -38,6 +38,9 @@ app.use('/api/user', users)
 // 引入logRecord.js并使用
 const logRecords = require('./routes/api/logRecord')
 app.use('/api/records', logRecords)
+// 引入opRecord.js并使用
+const opRecords = require('./routes/api/opRecord')
+app.use('/api/opRecords', opRecords)
 // 引入dictionary.js并使用
 const dictionary = require('./routes/api/dictionary')
 app.use('/api/dictionary', dictionary)
