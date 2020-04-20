@@ -33,7 +33,25 @@ const UserSchema = new Schema({
     nation: {
         type: String,
         required: true
-    }
+    },
+    insideData: [{
+        gridNum: {
+            type: String,
+            required: true
+        },
+        gridRange: {
+            type: String,
+            required: true
+        },
+        gridPeople: {
+            type: String,
+            required: true
+        },
+        date: {
+            type: Date,
+            default: Date.now
+        }
+    }],
 })
 
 let userModel = mongoose.model('users', UserSchema)

@@ -39,6 +39,29 @@ router.post('/register', (req, res) => {
         })
 })
 
+// 新增用户明细 POST请求
+// passport 验证token
+// private
+// // api/user/registerDetail
+router.post('/registerDetail', passport.authenticate('jwt', {session:false}), (req, res) => {
+    // 判断该用户是否已存在
+    Users.findOne({userName:req.body.userName})
+      .then((user) => {
+          if(user) {
+              const newInside = {
+                  gridNum: req.body.gridNum,
+                  gridRange: req.body.gridRange,
+                  gridPeople: req.body.gridPeople
+              }
+              user.insideData.push(newInside)
+              user.save()
+                .then(user => res.json({data:{code:200, msg:'创建网格成功', user}}))
+          } else {
+              return res.json({data:{code:400, msg:'该用户不存在'}})
+          }
+      })
+  })
+
 // 登录 请求会带数据 POST请求
 // 返回token, jwt passport
 //public
@@ -149,6 +172,25 @@ router.post('/updateUser', passport.authenticate('jwt', {session:false}), (req, 
     })
 })
 
+// 修改用户明细 POST请求
+// passport 验证token
+// private
+// api/user/updateUserDetail
+router.post('/updateUserDetail', passport.authenticate('jwt', {session:false}), (req, res) => {
+    Users.findOne({userName:req.body.userName})
+      .then((user) => {
+          if(user) {
+              user.insideData.forEach((el,index) => {
+                  if (el.gridNum === req.body.gridNum) {
+                      el.gridPeople = req.body.gridPeople
+                  }
+              })
+              user.save()
+                .then(user => res.json({data:{code:200, msg:'修改成功', user}}))
+          }
+      })
+  })
+
 // 个人姓名修改 POST请求
 // passport 验证token
 // private
@@ -234,5 +276,26 @@ router.post('/deleteUser', passport.authenticate('jwt', {session:false}), (req, 
         console.log(err)
     })
 })
+
+// 删除用户明细 POST请求
+// passport 验证token
+// private
+// api/user/deleteUserDetail
+router.post('/deleteUserDetail', passport.authenticate('jwt', {session:false}), (req, res) => {
+    Users.findOne({userName:req.body.userName})
+      .then((user) => {
+          if(user) {
+              let tempIndex = 0
+              user.insideData.forEach((el,index) => {
+                  if (el.gridNum === req.body.gridNum) {
+                      tempIndex = index
+                  }
+              })
+              user.insideData.splice(tempIndex, 1)
+              user.save()
+                .then(user => res.json({data:{code:200, msg:'删除成功', user}}))
+          }
+      })
+  })
 
 module.exports = router

@@ -37,7 +37,7 @@ router.post('/addStreet',  passport.authenticate('jwt', {session:false}), (req, 
 // private
 // api/Streets/addStreetDetail
 router.post('/addStreetDetail', passport.authenticate('jwt', {session:false}), (req, res) => {
-  // 判断该字典是否已存在
+  // 判断该街道办是否已存在
   Streets.findOne({indexNum:req.body.indexNum, mechaName: req.body.mechaName})
     .then((street) => {
         if(street) {
