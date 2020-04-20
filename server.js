@@ -41,6 +41,9 @@ app.use('/api/records', logRecords)
 // 引入opRecord.js并使用
 const opRecords = require('./routes/api/opRecord')
 app.use('/api/opRecords', opRecords)
+// 引入sysRecord.js并使用
+const sysRecords = require('./routes/api/sysRecord')
+app.use('/api/sysRecords', sysRecords)
 // 引入dictionary.js并使用
 const dictionary = require('./routes/api/dictionary')
 app.use('/api/dictionary', dictionary)
