@@ -17,10 +17,13 @@ router.post('/addhouse', passport.authenticate('jwt', {session:false}), (req, re
             return res.json({data:{code:400, msg:'该房屋已存在'}})
         } else {
             const NewHouse = new Houses({
-                communityName: req.body.communityName,
-                houseNum: req.body.houseNum,
-                houseSize: req.body.houseSize,
-                houseHolder: req.body.houseHolder
+              date: req.body.date,
+              gridNum: req.body.gridNum,
+              gridRange: req.body.gridRange,
+              communityName: req.body.communityName,
+              houseNum: req.body.houseNum,
+              houseSize: req.body.houseSize,
+              houseHolder: req.body.houseHolder
             })
             NewHouse.save()
                 .then(house => res.json({data:{code:200, msg:'新增成功', house}}))
@@ -52,6 +55,29 @@ router.post('/getHouses', passport.authenticate('jwt', {session:false}), (req, r
             console.log(err)
         })
     }
+  })
+})
+
+// 返回房屋查询数据 POST请求
+// passport 验证tocken
+// private
+// api/house/getSearchHouses
+router.post('/getSearchHouses',passport.authenticate('jwt', {session:false}) , (req, res) => {
+  let query = req.body.query
+  let currentPage = req.body.currentPage
+  let pageSize = req.body.pageSize
+  Houses.countDocuments(query, (err, count) => {
+      if (err) {res.json({data: {code: 400, msg: `${JSON.stringify(err)}`}})}
+      else {
+        Houses.find(query).skip((currentPage-1) * pageSize).limit(pageSize)
+          .then(house => {
+              res.json({data:{
+                  code: 200,
+                  house,
+                  totalCount: count
+              }})
+          })
+      }
   })
 })
 

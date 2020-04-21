@@ -20,9 +20,17 @@ const carSchema = new Schema({
     type: String,
     required: true
   },
+  gridNum: {
+    type: String,
+    required: true
+  },
+  gridRange: {
+    type: String,
+    required: true
+  },
   date: {
-      type: Date,
-      default: Date.now
+    type: String,
+    required: true
   }
 })
 

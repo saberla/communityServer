@@ -11,6 +11,9 @@ const Cars = require('../../Schemas/carSchema') //车辆库
 // api/cars/addcar
 router.post('/addcar', passport.authenticate('jwt', {session:false}), (req, res) => {
   const NewCar = new Cars({
+    date: req.body.date,
+    gridNum: req.body.gridNum,
+    gridRange: req.body.gridRange,
     communityName: req.body.communityName,
     carNum: req.body.carNum,
     carHolder: req.body.carHolder,
@@ -35,15 +38,38 @@ router.post('/getCars', passport.authenticate('jwt', {session:false}), (req, res
       Cars.find({communityName}).skip((currentPage-1) * pageSize).limit(pageSize)
         .then(car => {
             res.json({data:{
-                code: 200,
-                car,
-                totalCount: count
+              code: 200,
+              car,
+              totalCount: count
             }})
         })
         .catch(err => {
             console.log(err)
         })
     }
+  })
+})
+
+// 返回车辆查询数据 POST请求
+// passport 验证tocken
+// private
+// api/cars/getSearchCars
+router.post('/getSearchCars',passport.authenticate('jwt', {session:false}) , (req, res) => {
+  let query = req.body.query
+  let currentPage = req.body.currentPage
+  let pageSize = req.body.pageSize
+  Cars.countDocuments(query, (err, count) => {
+      if (err) {res.json({data: {code: 400, msg: `${JSON.stringify(err)}`}})}
+      else {
+        Cars.find(query).skip((currentPage-1) * pageSize).limit(pageSize)
+          .then(cars => {
+              res.json({data:{
+                code: 200,
+                cars,
+                totalCount: count
+              }})
+          })
+      }
   })
 })
 

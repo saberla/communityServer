@@ -117,7 +117,7 @@ router.post('/getUsers',passport.authenticate('jwt', {session:false}) , (req, re
     let query = req.body.query
     let currentPage = req.body.currentPage
     let pageSize = req.body.pageSize
-    Users.countDocuments({}, (err, count) => {
+    Users.countDocuments(query, (err, count) => {
         if (err) {res.json({data: {code: 400, msg: `${JSON.stringify(err)}`}})}
         else {
             Users.find(query).skip((currentPage-1) * pageSize).limit(pageSize)
