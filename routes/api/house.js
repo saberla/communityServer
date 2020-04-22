@@ -81,6 +81,27 @@ router.post('/getSearchHouses',passport.authenticate('jwt', {session:false}) , (
   })
 })
 
+// 返回信息门户查询数据 POST请求
+// passport 验证tocken
+// private
+// api/house/getInfoHouses
+router.post('/getInfoHouses',passport.authenticate('jwt', {session:false}) , (req, res) => {
+  let query = req.body.query
+  Houses.countDocuments(query, (err, count) => {
+      if (err) {res.json({data: {code: 400, msg: `${JSON.stringify(err)}`}})}
+      else {
+        Houses.find(query)
+          .then(house => {
+              res.json({data:{
+                  code: 200,
+                  house,
+                  totalCount: count
+              }})
+          })
+      }
+  })
+})
+
 // 修改房屋信息 POST请求
 // passport 验证token
 // private

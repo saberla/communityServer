@@ -74,6 +74,27 @@ router.post('/getSearchPersons',passport.authenticate('jwt', {session:false}) , 
   })
 })
 
+// 返回信息门户查询数据 POST请求
+// passport 验证token
+// private
+// api/persons/getInfoPersons
+router.post('/getInfoPersons',passport.authenticate('jwt', {session:false}) , (req, res) => {
+  let query = req.body.query
+  Persons.countDocuments(query, (err, count) => {
+      if (err) {res.json({data: {code: 400, msg: `${JSON.stringify(err)}`}})}
+      else {
+        Persons.find(query)
+          .then(person => {
+              res.json({data:{
+                code: 200,
+                person,
+                totalCount: count
+              }})
+          })
+      }
+  })
+})
+
 // 修改人员信息 POST请求
 // passport 验证token
 // private

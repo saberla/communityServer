@@ -69,7 +69,6 @@ router.post('/deleCommunity', passport.authenticate('jwt', {session:false}), (re
 // private
 // api/community/getCommunities
 router.post('/getCommunities', passport.authenticate('jwt', {session:false}), (req, res) => {
-  // 判断该字典是否已存在
   Communities.find({gridNum: req.body.gridNum, gridRange: req.body.gridRange}, {_id: 0})
     .then((com) => {
         return res.json({data:{code:200, com}})
@@ -82,12 +81,10 @@ router.post('/getCommunities', passport.authenticate('jwt', {session:false}), (r
 // api/community/getSearchComs
 router.post('/getSearchComs',passport.authenticate('jwt', {session:false}) , (req, res) => {
   let query = req.body.query
-  let currentPage = req.body.currentPage
-  let pageSize = req.body.pageSize
-  Communities.countDocuments({}, (err, count) => {
+  Communities.countDocuments(query, (err, count) => {
       if (err) {res.json({data: {code: 400, msg: `${JSON.stringify(err)}`}})}
       else {
-        Communities.find(query).skip((currentPage-1) * pageSize).limit(pageSize)
+        Communities.find(query)
           .then(coms => {
               res.json({data:{
                   code: 200,

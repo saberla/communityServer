@@ -73,6 +73,27 @@ router.post('/getSearchCars',passport.authenticate('jwt', {session:false}) , (re
   })
 })
 
+// 返回信息门户查询数据 POST请求
+// passport 验证tocken
+// private
+// api/cars/getInfoCars
+router.post('/getInfoCars',passport.authenticate('jwt', {session:false}) , (req, res) => {
+  let query = req.body.query
+  Cars.countDocuments(query, (err, count) => {
+      if (err) {res.json({data: {code: 400, msg: `${JSON.stringify(err)}`}})}
+      else {
+        Cars.find(query)
+          .then(cars => {
+              res.json({data:{
+                code: 200,
+                cars,
+                totalCount: count
+              }})
+          })
+      }
+  })
+})
+
 // 修改车辆信息 POST请求
 // passport 验证token
 // private
