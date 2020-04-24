@@ -62,3 +62,6 @@ app.use('/api/persons', person)
 // 引入car.js并使用
 const car = require('./routes/api/car')
 app.use('/api/cars', car)
+// 引入task.js并使用
+const task = require('./routes/api/task')
+app.use('/api/task', task)
