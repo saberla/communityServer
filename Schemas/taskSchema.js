@@ -32,22 +32,27 @@ const TaskSchema = new Schema({
         type: String
     },
     insideData: [{
-        gridNum: {
-            type: String,
-            required: true
-        },
-        gridRange: {
-            type: String,
-            required: true
-        },
-        gridPeople: {
-            type: String,
-            required: true
-        },
-        date: {
-            type: Date,
-            default: Date.now
-        }
+      taskAmount: {
+          type: String
+      },
+      quality: {
+          type: String
+      },
+      userName: {
+        type: String
+      },
+      name: {
+        type: String
+      },
+      tel: {
+        type: String
+      },
+      education: {
+        type: String
+      },
+      nation: {
+        type: String
+      }
     }],
 })
 

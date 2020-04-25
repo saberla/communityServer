@@ -42,7 +42,7 @@ router.post('/register', (req, res) => {
 // 新增用户明细 POST请求
 // passport 验证token
 // private
-// // api/user/registerDetail
+// api/user/registerDetail
 router.post('/registerDetail', passport.authenticate('jwt', {session:false}), (req, res) => {
     // 判断该用户是否已存在
     Users.findOne({userName:req.body.userName})
@@ -51,9 +51,16 @@ router.post('/registerDetail', passport.authenticate('jwt', {session:false}), (r
               const newInside = {
                   gridNum: req.body.gridNum,
                   gridRange: req.body.gridRange,
-                  gridPeople: req.body.gridPeople
+                  gridPeople: req.body.gridPeople,
+                  userName: req.body.userName,
+                  name: req.body.name,
+                  tel: req.body.tel,
+                  education: req.body.education,
+                  nation: req.body.nation,
+                  taskAmount: req.body.taskAmount,
+                  quality: req.body.quality
               }
-              user.insideData.push(newInside)
+              user.insideData.unshift(newInside)
               user.save()
                 .then(user => res.json({data:{code:200, msg:'创建网格成功', user}}))
           } else {
@@ -286,16 +293,32 @@ router.post('/deleteUserDetail', passport.authenticate('jwt', {session:false}), 
       .then((user) => {
           if(user) {
               let tempIndex = 0
+              let count = 0
+              let start = 0
               user.insideData.forEach((el,index) => {
-                  if (el.gridNum === req.body.gridNum) {
-                      tempIndex = index
-                  }
+                if (req.body.gridNum) {
+                    if (el.gridNum === req.body.gridNum) {
+                        tempIndex = index
+                        user.insideData.splice(tempIndex, 1)
+                    }
+                }
               })
-              user.insideData.splice(tempIndex, 1)
+              for (let i=0;i<user.insideData.length;i++) {
+                  if (req.body.name) {
+                    if (user.insideData[i].name === req.body.name) {
+                        count++
+                        if (count === 1) {
+                            start = i
+                        }
+                    }
+                  }
+              }
+              user.insideData.splice(start, count)
               user.save()
                 .then(user => res.json({data:{code:200, msg:'删除成功', user}}))
           }
       })
   })
+
 
 module.exports = router

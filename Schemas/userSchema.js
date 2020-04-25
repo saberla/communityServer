@@ -36,16 +36,70 @@ const UserSchema = new Schema({
     },
     insideData: [{
         gridNum: {
-            type: String,
-            required: true
+            type: String
         },
         gridRange: {
-            type: String,
-            required: true
+            type: String
         },
         gridPeople: {
-            type: String,
-            required: true
+            type: String
+        },
+        taskAmount: {
+            type: String
+        },
+        quality: {
+            type: String
+        },
+        userName: {
+          type: String
+        },
+        name: {
+          type: String
+        },
+        tel: {
+          type: String
+        },
+        education: {
+          type: String
+        },
+        nation: {
+          type: String
+        },
+        date: {
+            type: Date,
+            default: Date.now
+        }
+    }],
+    insideData1: [{
+        gridNum: {
+            type: String
+        },
+        gridRange: {
+            type: String
+        },
+        gridPeople: {
+            type: String
+        },
+        taskAmount: {
+            type: String
+        },
+        quality: {
+            type: String
+        },
+        userName: {
+          type: String
+        },
+        name: {
+          type: String
+        },
+        tel: {
+          type: String
+        },
+        education: {
+          type: String
+        },
+        nation: {
+          type: String
         },
         date: {
             type: Date,

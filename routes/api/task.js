@@ -24,6 +24,31 @@ router.post('/addTask', passport.authenticate('jwt', {session:false}), (req, res
     .catch(err => console.log(err))
 })
 
+// 新增任务明细 POST请求
+// passport 验证token
+// private
+// // api/task/addTaskDetail
+router.post('/addTaskDetail', passport.authenticate('jwt', {session:false}), (req, res) => {
+  Tasks.findOne({gridRange:req.body.gridRange, taskType: req.body.taskType})
+    .then((task) => {
+        if(task) {
+            const newInside = {
+                userName: req.body.userName,
+                name: req.body.name,
+                tel: req.body.tel,
+                education: req.body.education,
+                nation: req.body.nation,
+                taskAmount: req.body.taskAmount
+            }
+            task.insideData.push(newInside)
+            task.save()
+              .then(task => res.json({data:{code:200, msg:'创建网格成功', task}}))
+        } else {
+            return res.json({data:{code:400, msg:'该用户不存在'}})
+        }
+    })
+})
+
 // 返回任务列表 POST请求
 // passport 验证token
 // private
