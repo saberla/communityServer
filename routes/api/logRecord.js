@@ -108,5 +108,54 @@ router.post('/getTotals',passport.authenticate('jwt', {session:false}) , (req, r
   })
 })
 
+// 返回echarts图表信息 POST请求 当前登录网格人员
+// passport 验证tocken
+// private
+// api/records/getNowTotals
+router.post('/getNowTotals',passport.authenticate('jwt', {session:false}) , (req, res) => {
+  let  arr = []
+  let query = req.body.query
+Houses.countDocuments(query, (err, count) => {
+    if (err) {res.json({data: {code: 400, msg: `${JSON.stringify(err)}`}})}
+    else {
+      let obj = {}
+      obj.name = '房屋总数'
+      obj.value = count
+      arr.push(obj)
+      Persons.countDocuments(query, (err, count1) => {
+        if (err) {res.json({data: {code: 400, msg: `${JSON.stringify(err)}`}})}
+        else {
+          let obj = {}
+          obj.name = '人员总数'
+          obj.value = count1
+          arr.push(obj)
+          Communities.countDocuments(query, (err, count2) => {
+            if (err) {res.json({data: {code: 400, msg: `${JSON.stringify(err)}`}})}
+            else {
+              let obj = {}
+              obj.name = '小区总数'
+              obj.value = count2
+              arr.push(obj)
+              Cars.countDocuments(query, (err, count4) => {
+                if (err) {res.json({data: {code: 400, msg: `${JSON.stringify(err)}`}})}
+                else {
+                  let obj = {}
+                  obj.name = '车辆总数'
+                  obj.value = count4
+                  arr.push(obj)
+                  res.json({data:{
+                    code: 200,
+                    totalRes: arr
+                  }})
+                }
+              })
+            }
+          })
+        }
+      })
+    }
+})
+})
+
 
 module.exports = router

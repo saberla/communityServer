@@ -69,7 +69,8 @@ router.post('/deleCommunity', passport.authenticate('jwt', {session:false}), (re
 // private
 // api/community/getCommunities
 router.post('/getCommunities', passport.authenticate('jwt', {session:false}), (req, res) => {
-  Communities.find({gridNum: req.body.gridNum, gridRange: req.body.gridRange}, {_id: 0})
+  let query = req.body.query
+  Communities.find(query, {_id: 0})
     .then((com) => {
         return res.json({data:{code:200, com}})
     })
