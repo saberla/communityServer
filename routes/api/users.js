@@ -205,7 +205,7 @@ router.post('/updateUserDetail', passport.authenticate('jwt', {session:false}), 
 router.post('/updateName', passport.authenticate('jwt', {session:false}), (req, res) => {
     Users.findOneAndUpdate({userName: req.body.userName}, {
         name: req.body.name
-    },{new: true})
+    },{new: true, useFindAndModify:false})
     .then(user => {
         res.json({data:{
             code:200,
