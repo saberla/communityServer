@@ -126,7 +126,7 @@ router.post('/deleteDetail', passport.authenticate('jwt', {session:false}), (req
 // passport 验证token
 // private
 // api/dictionary/getDic
-router.post('/getDic', passport.authenticate('jwt', {session:false}), (req, res) => {
+router.post('/getDic', (req, res) => {
     // 判断该字典是否已存在
     Dictionaries.find({}, {_id: 0})
       .then((dic) => {

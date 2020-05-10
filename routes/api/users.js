@@ -143,7 +143,7 @@ router.post('/getUsers',passport.authenticate('jwt', {session:false}) , (req, re
 // passport 验证token
 // private
 // api/user/getLoginUser
-router.post('/getLoginUser', passport.authenticate('jwt', {session:false}), (req, res) => {
+router.post('/getLoginUser', (req, res) => {
     Users.find({userName: req.body.userName})
         .then(user => {
             res.json({data:{
